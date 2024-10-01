@@ -1,17 +1,18 @@
-// Scroll animation for the congratulations section
-window.addEventListener('scroll', function() {
-    const congratsSection = document.getElementById('congratulations-section');
-    const sectionPos = congratsSection.getBoundingClientRect().top;
-    const windowHeight = window.innerHeight;
+// Function to add the 'visible' class to elements when they are in the viewport
+const fadeInOnScroll = (entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target); // Stop observing after fade-in
+        }
+    });
+};
 
-    if (sectionPos < windowHeight - 100) {
-        congratsSection.classList.add('visible');
-    }
+// Create an intersection observer
+const observer = new IntersectionObserver(fadeInOnScroll);
+
+// Observe each element with the 'fade' class
+document.querySelectorAll('.fade').forEach(element => {
+    observer.observe(element);
 });
 
-// Sparkling diamond effect
-setInterval(() => {
-    const diamond = document.querySelector('.diamond');
-    const sparkle = Math.random() * 10;
-    diamond.style.boxShadow = `0 0 ${sparkle}px 10px rgba(255, 255, 255, 0.7)`;
-}, 300);
